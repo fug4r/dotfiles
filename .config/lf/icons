@@ -2,7 +2,7 @@
 
 # File types
 ln             # LINK
-or             # ORPHAN
+or      
 tw      t       # STICKY_OTHER_WRITABLE
 ow             # OTHER_WRITABLE
 st      t       # STICKY
@@ -18,31 +18,29 @@ fi             # FILE
 
 # Specific folders
 .git/         
+.config/      
 Desktop/      
-Documents/    
 Downloads/    
-Pictures/     
+Documents/    
 Music/        
-Movies/       
+Pictures/     
 Videos/       
 Public/       
+Templates/    
+Movies/       
 Library/      
 Development/  
-.config/      
 
 # Text
 *.txt   
 *.rst   
 
 # Documents
-*.csv   
+*.pdf   
 *.doc   
 *.doct  
 *.docx  
 *.dot   
-*.ods   
-*.ots   
-*.pdf   
 *.pom   
 *.pot   
 *.ppm   
@@ -52,6 +50,9 @@ Development/  
 *.ppmx  
 *.ppsx  
 *.pptx  
+*.csv   
+*.ods   
+*.ots   
 *.xlc   
 *.xlm   
 *.xls   
