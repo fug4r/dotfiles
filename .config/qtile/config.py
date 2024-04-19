@@ -15,6 +15,7 @@ terminal = "kitty"
 browser = "brave"
 rofi = "rofi -show drun"
 powermenu = os.path.expanduser("~") + "/.config/rofi/powermenu"
+flameshot = "flameshot gui -c"
 
 colors, backgroundColor, foregroundColor, workspaceColor, chordColor = colors.dracula()
 
@@ -67,8 +68,9 @@ keys = [
     # Launch applications
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "w", lazy.spawn(browser), desc="Launch browser"),
-    Key([mod], "p", lazy.spawn(rofi), desc="Launch rofi"),
-    Key([mod], "o", lazy.spawn(powermenu), desc="Launch powermenu"),
+    Key([mod], "o", lazy.spawn(rofi), desc="Launch rofi"),
+    Key([mod], "p", lazy.spawn(powermenu), desc="Launch powermenu"),
+    Key([], "Print", lazy.spawn(flameshot), desc="Take Screenshot"),
     # Fn keys
     Key([], "XF86AudioMute", lazy.spawn("amixer -q set Master toggle")),
     Key([], "XF86AudioLowerVolume", lazy.spawn("amixer sset Master 2%- unmute")),
