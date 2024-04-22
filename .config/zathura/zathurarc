@@ -1,0 +1,8 @@
+# zathurarc
+
+# Settings
+set adjust-open width
+set database sqlite
+set zoom-min 1
+
+set guioptions none

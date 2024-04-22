@@ -110,7 +110,7 @@ local plugins = {
 
     {
         "mfussenegger/nvim-dap-python",
-        ft = "python",
+        ft = { "python" },
         dependencies = {
             "mfussenegger/nvim-dap",
             "rcarriga/nvim-dap-ui",
@@ -121,6 +121,7 @@ local plugins = {
         end,
     },
 
+    -- TODO Configure rustaceanvim
     -- Rust
     {
         "rust-lang/rust.vim",
@@ -129,7 +130,6 @@ local plugins = {
             vim.g.rustfmt_autosave = 1
         end
     },
-
 
     {
         "saecki/crates.nvim",

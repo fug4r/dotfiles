@@ -35,7 +35,7 @@ M.dap = {
 
 M.crates = {
     n = {
-        ["<leader>puc"] = {
+        ["<leader>ruc"] = {
             function()
                 require("crates").upgrade_all_crates()
             end,

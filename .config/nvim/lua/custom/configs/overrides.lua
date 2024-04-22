@@ -23,9 +23,14 @@ M.treesitter = {
         "python",
 
         -- Typesetting and markup
-        --"latex",
+        --"latex", -- Causes problems with vimtex
         "markdown",
         "markdown_inline",
+
+        -- Other/Esoteric
+        "bash",
+        "hyprlang",
+        "asm",
     },
 }
 

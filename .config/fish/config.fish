@@ -4,6 +4,8 @@ set -U fish_user_paths $HOME/.local/bin $fish_user_paths
 
 # Environement variables
 set -gx QT_QPA_PLATFORMTHEME qt5ct
+set -gx _JAVA_AWT_WM_NONREPARENTING 1
+set -gx _JAVA_OPTIONS '-Dawt.useSystemAAFontSettings=gasp'
 
 # Set default or vi keybindings
 function fish_user_key_bindings
