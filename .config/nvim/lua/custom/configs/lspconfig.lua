@@ -72,7 +72,7 @@ lspconfig.pyright.setup({
             analysis = {
                 -- Ignoring all files for analysis to exclusively use Ruff for linting
                 ignore = { '*' },
-                -- TODO use Mypy for static type checking, and turn this option off
+                -- Can also use Mypy for static type checking, and turn this option off
                 typeCheckingMode = "on",
             },
         },
