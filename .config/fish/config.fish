@@ -3,9 +3,14 @@ set -e fish_user_paths
 set -U fish_user_paths $HOME/.local/bin $fish_user_paths
 
 # Environement variables
+set -gx EDITOR nvim
+set -gx VISUAL nvim
 set -gx QT_QPA_PLATFORMTHEME qt5ct
 set -gx _JAVA_AWT_WM_NONREPARENTING 1
-set -gx _JAVA_OPTIONS '-Dawt.useSystemAAFontSettings=gasp'
+set -gx _JAVA_OPTIONS "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true"
+
+# Set Neovim as the manpager
+set -x MANPAGER "nvim +Man!"
 
 # Set default or vi keybindings
 function fish_user_key_bindings

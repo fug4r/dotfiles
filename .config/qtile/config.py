@@ -86,8 +86,8 @@ keys = [
 ]
 
 groups = []
-group_names = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
-group_labels = ["", "󰈹", "󰉋", "", "", "󰦨", "󰊄", "󰽉", "", ""]
+group_names = ["1", "2", "3", "4", "5", "6", "7", "8"]
+group_labels = ["", "󰈹", "󰉋", "", "󰊄", "󰽉", "", ""]
 
 for i in range(len(group_names)):
     groups.append(
@@ -107,6 +107,7 @@ for i in groups:
                 lazy.group[i.name].toscreen(),
                 desc="Mod + Number to move to that group",
             ),
+            # TODO complete this
             # Key([mod, "control"], "l", lazy.window.togroup(), desc="Move focused window to next group"),
             # Key([mod, "control"], "h", lazy.window.togroup(), desc="Move focused window to previous group"),
             Key(
@@ -114,7 +115,7 @@ for i in groups:
                 i.name,
                 lazy.window.togroup(i.name),
                 lazy.group[i.name].toscreen(),
-                desc="Grow window to the right",
+                desc="Move focused window to that group",
             ),
         ]
     )
@@ -154,12 +155,6 @@ keys.extend(
             "n",
             lazy.group["scratchpad"].dropdown_toggle("term1"),
             desc="Terminal scratchpad 1",
-        ),
-        Key(
-            [mod],
-            "m",
-            lazy.group["scratchpad"].dropdown_toggle("term2"),
-            desc="Terminal scratchpad 2",
         ),
     ]
 )
@@ -304,6 +299,12 @@ floating_layout = layout.Floating(
         Match(wm_class="ssh-askpass"),  # ssh-askpass
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
+        Match(wm_class="blueman-manager"),  # blueman
+
+        Match(wm_class="HardwareSimulatorMain"),
+        Match(wm_class="CPUEmulatorMain"),
+        Match(wm_class="VMEmulatorMain"),
+        Match(wm_class="HackAssemblerMain"),
     ],
     border_width=3,
     border_focus=workspaceColor,

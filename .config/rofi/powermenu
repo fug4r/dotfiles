@@ -8,6 +8,6 @@ case "$chosen" in
 	"  Suspend") systemctl suspend ;;
 	"  Hibernate") systemctl hibernate ;;
 	"󰍃  Log Out") loginctl kill-session "$whoami" ;;
-	"  Lock") betterlockscreen -l ;;
+	"  Lock") i3lock ;;
 	*) exit 1 ;;
 esac
