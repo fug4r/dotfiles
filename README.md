@@ -37,5 +37,5 @@ $ cd mydotfiles
 then use GNU stow to create symlinks
 
 ```
-$ stow .
+$ stow --no-folding .
 ```
