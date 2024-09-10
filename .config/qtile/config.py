@@ -11,7 +11,7 @@ from libqtile.lazy import lazy
 import colors
 
 mod = "mod4"
-terminal = "kitty"
+terminal = "kitty --single-instance"
 browser = "brave"
 rofi = "rofi -show drun"
 powermenu = os.path.expanduser("~") + "/.config/rofi/powermenu"
@@ -68,7 +68,7 @@ keys = [
     # Launch applications
     Key([mod], "Return", lazy.spawn(terminal), desc="Launch terminal"),
     Key([mod], "w", lazy.spawn(browser), desc="Launch browser"),
-    Key([mod], "o", lazy.spawn(rofi), desc="Launch rofi"),
+    Key([mod], "r", lazy.spawn(rofi), desc="Launch rofi"),
     Key([mod], "p", lazy.spawn(powermenu), desc="Launch powermenu"),
     Key([], "Print", lazy.spawn(flameshot), desc="Take Screenshot"),
     # Fn keys
