@@ -9,6 +9,10 @@ set -gx QT_QPA_PLATFORMTHEME qt5ct
 set -gx _JAVA_AWT_WM_NONREPARENTING 1
 set -gx _JAVA_OPTIONS "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true"
 
+# XDG environement variables
+set -gx XDG_CURRENT_DESKTOP Hyprland
+set -gx XDG_SESSION_DESKTOP
+
 # Set Neovim as the manpager
 set -x MANPAGER "nvim +Man!"
 

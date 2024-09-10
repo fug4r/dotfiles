@@ -1,15 +1,13 @@
 #!/bin/sh
 
-if [ $XDG_SESSION_TYPE="x11" ]
-then
-    # xrandr # TODO add proper refresh rate settings
-    xset r rate 250 45
-    setxkbmap -option ctrl:swapcaps
-    picom --config ~/.config/picom/picom.conf --vsync &
-fi
+# Xorg options
+xrandr --output eDP-2 --mode 2560x1600 --rate 165.00
+xset r rate 250 45
+setxkbmap -option ctrl:swapcaps
 
+picom --config ~/.config/picom/picom.conf --vsync &
 mullvad-vpn &
 blueman-applet &
 nm-applet &
 flameshot &
-# dunst &
+dunst &
