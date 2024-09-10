@@ -221,6 +221,12 @@ screens = [
                     },
                     no_update_string="0",
                 ),
+                widget.TextBox(
+                    text=" Time:",
+                    fontsize=14,
+                    font="JetBrainsMono Nerd Font",
+                ),
+                widget.GenPollText(update_interval=1, func=lambda: subprocess.check_output(os.path.expanduser("~") + "/.local/bin/time-since-update.sh").decode("utf-8")),
                 widget.Sep(padding=10, foreground=backgroundColor),
                 # Volume level
                 widget.TextBox(
