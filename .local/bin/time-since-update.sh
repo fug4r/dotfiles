@@ -2,7 +2,7 @@
 
 # TODO check only for successful upgrades
 current_date=$(date +%s)
-last_update=$(date -d $(sed -n '/starting full system upgrade$/x;${x;s/.\([0-9-]*\).*/\1/p}' /var/log/pacman.log) +%s)
+last_update=$(date -d $(tac /var/log/pacman.log | grep -m 1 "starting full system upgrade" | awk -F'[][]' '{print $2}') +%s)
 
 seconds=$(( $current_date - $last_update ))
 days=$(( $seconds / 86400 ))

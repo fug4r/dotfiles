@@ -39,6 +39,9 @@ local plugins = {
     {
         "L3MON4D3/LuaSnip",
         opts = { enable_autosnippets = true },
+        -- config = function()
+        -- require("custom.configs.luasnip")
+        -- end,
     },
 
     -- Disable default snippets >:(

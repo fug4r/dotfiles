@@ -25,3 +25,6 @@ vim.g.lua_snippets_path = vim.fn.stdpath "config" .. "/lua/custom/luasnip"
 vim.filetype.add({
     pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
 })
+
+-- Local leader key
+vim.g.maplocalleader = "."
