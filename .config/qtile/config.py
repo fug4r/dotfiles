@@ -87,7 +87,7 @@ keys = [
 
 groups = []
 group_names = ["1", "2", "3", "4", "5", "6", "7", "8"]
-group_labels = ["", "󰈹", "󰉋", "", "󰊄", "󰽉", "", ""]
+group_labels = ["", "󰈹", "", "", "", "", "", ""]
 
 for i in range(len(group_names)):
     groups.append(
@@ -196,14 +196,6 @@ screens = [
                 ),
                 # Spacer to separate bar in two (left and right sides)
                 widget.Spacer(),
-                # Wifi interface
-                widget.TextBox(
-                    text="󰤨 ",
-                    fontsize=14,
-                    font="JetBrainsMono Nerd Font",
-                    foreground=workspaceColor,
-                ),
-                widget.Wlan(font="JetBrainsMono Nerd Font", format="{essid}"),
                 widget.Sep(padding=10, foreground=backgroundColor),
                 # Updates available
                 widget.TextBox(
@@ -213,12 +205,9 @@ screens = [
                     foreground=workspaceColor,
                 ),
                 widget.CheckUpdates(
-                    update_interval=3600,
+                    update_interval=1800,
                     distro="Arch_checkupdates",
                     display_format=" {updates}",
-                    mouse_callbacks={
-                        "Button1": lambda: qtile.cmd_spawn(terminal + " -e paru")
-                    },
                     no_update_string="0",
                 ),
                 widget.TextBox(
@@ -226,7 +215,12 @@ screens = [
                     fontsize=14,
                     font="JetBrainsMono Nerd Font",
                 ),
-                widget.GenPollText(update_interval=1, func=lambda: subprocess.check_output(os.path.expanduser("~") + "/.local/bin/time-since-update.sh").decode("utf-8")),
+                widget.GenPollText(
+                    update_interval=1800,
+                    func=lambda: subprocess.check_output(
+                        os.path.expanduser("~") + "/.local/bin/time-since-update.sh"
+                    ).decode("utf-8"),
+                ),
                 widget.Sep(padding=10, foreground=backgroundColor),
                 # Volume level
                 widget.TextBox(
@@ -244,7 +238,12 @@ screens = [
                     font="JetBrainsMono Nerd Font",
                     foreground=workspaceColor,
                 ),
-                widget.Battery(format="{percent:1.0%}", full_char=""),
+                widget.Battery(
+                    format="{percent:1.0%}",
+                    full_char="",
+                    low_percentage=0.11,
+                    low_foreground=colors[9],
+                ),
                 widget.Sep(padding=10, foreground=backgroundColor),
                 # Date and time
                 widget.TextBox(
@@ -306,7 +305,7 @@ floating_layout = layout.Floating(
         Match(title="branchdialog"),  # gitk
         Match(title="pinentry"),  # GPG key password entry
         Match(wm_class="blueman-manager"),  # blueman
-
+        Match(wm_class="pavucontrol"),  # pavucontrol
         Match(wm_class="HardwareSimulatorMain"),
         Match(wm_class="CPUEmulatorMain"),
         Match(wm_class="VMEmulatorMain"),
@@ -324,23 +323,20 @@ reconfigure_screens = True
 # Autorstart commands
 @hook.subscribe.startup_once
 def autostart():
-    home = os.path.expanduser("~/.config/qtile/autostart")
-    subprocess.Popen([home])
+    script = os.path.expanduser("~") + "/.config/qtile/autostart"
+    subprocess.Popen([script])
+
+
+# Move config programs to config workspace
+@hook.subscribe.client_new
+def client_new(client):
+    settings = ["Mullvad VPN", "Volume Control", "Bluetooth Devices"]
+    if client.name in settings:
+        client.togroup("8")
 
 
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?
 auto_minimize = True
 
-# When using the Wayland backend, this can be used to configure input devices.
-wl_input_rules = None
-
-# XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
-# string besides java UI toolkits; you can see several discussions on the
-# mailing lists, GitHub issues, and other WM documentation that suggest setting
-# this string if your java app doesn't work correctly. We may as well just lie
-# and say that we're a working one by default.
-#
-# We choose LG3D to maximize irony: it is a 3D non-reparenting WM written in
-# java that happens to be on java's whitelist.
 wmname = "LG3D"
