@@ -241,13 +241,13 @@ if has_battery():
             foreground=workspaceColor,
         )
     )
-    (
+    widgets.append(
         widget.Battery(
             format="{percent:1.0%}",
             full_char="",
             low_percentage=0.11,
             low_foreground=colors[9],
-        ),
+        )
     )
 
 widgets.extend(
