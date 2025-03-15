@@ -87,7 +87,7 @@ keys = [
 
 groups = []
 group_names = ["1", "2", "3", "4", "5", "6", "7", "8"]
-group_labels = ["", "󰈹", "", "", "", "", "", ""]
+group_labels = ["󰈹", "", "", "", "", "", "", ""]
 
 for i in range(len(group_names)):
     groups.append(
