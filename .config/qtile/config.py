@@ -1,4 +1,5 @@
 import os
+import glob
 from os import path
 from typing import List
 import subprocess
@@ -18,6 +19,13 @@ powermenu = os.path.expanduser("~") + "/.config/rofi/powermenu"
 flameshot = "flameshot gui -c"
 
 colors, backgroundColor, foregroundColor, workspaceColor, chordColor = colors.dracula()
+
+
+# Checks if the computer has a battery (is a laptop)
+def has_battery():
+    # Returns True if any battery device exists under /sys/class/power_supply/
+    return bool(glob.glob("/sys/class/power_supply/BAT*"))
+
 
 keys = [
     # Switch between windows
@@ -166,102 +174,118 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+# Before battery
+widgets = [
+    # Workspaces
+    widget.GroupBox(
+        font="JetBrainsMono Nerd Font",
+        fontsize=16,
+        margin_y=2,
+        margin_x=4,
+        padding_y=6,
+        padding_x=6,
+        borderwidth=2,
+        disable_drag=True,
+        inactive=foregroundColor,
+        active=foregroundColor,
+        hide_unused=False,
+        rounded=False,
+        highlight_method="line",
+        highlight_color=[backgroundColor, backgroundColor],
+        this_current_screen_border=workspaceColor,
+        urgent_alert_method="line",
+        urgent_border=colors[9],
+        urgent_text=colors[1],
+        foreground=foregroundColor,
+        background=backgroundColor,
+        use_mouse_wheel=False,
+    ),
+    # Spacer to separate bar in two (left and right sides)
+    widget.Spacer(),
+    widget.Sep(padding=10, foreground=backgroundColor),
+    # Updates available
+    widget.TextBox(
+        text="󰇚",
+        fontsize=14,
+        font="JetBrainsMono Nerd Font",
+        foreground=workspaceColor,
+    ),
+    widget.CheckUpdates(
+        update_interval=1800,
+        distro="Arch_checkupdates",
+        display_format=" {updates}",
+        no_update_string="0",
+    ),
+    widget.TextBox(
+        text=" Time:",
+        fontsize=14,
+        font="JetBrainsMono Nerd Font",
+    ),
+    widget.GenPollText(
+        update_interval=1800,
+        func=lambda: subprocess.check_output(
+            os.path.expanduser("~") + "/.local/bin/time-since-update.sh"
+        ).decode("utf-8"),
+    ),
+]
+
+if has_battery():
+    widgets.append(widget.Sep(padding=10, foreground=backgroundColor))
+
+    # Battery level
+    widgets.append(
+        widget.TextBox(
+            text="󰁹",
+            fontsize=14,
+            font="JetBrainsMono Nerd Font",
+            foreground=workspaceColor,
+        )
+    )
+    (
+        widget.Battery(
+            format="{percent:1.0%}",
+            full_char="",
+            low_percentage=0.11,
+            low_foreground=colors[9],
+        ),
+    )
+
+widgets.extend(
+    [
+        widget.Sep(padding=10, foreground=backgroundColor),
+        # Volume level
+        widget.TextBox(
+            text="󰕾 ",
+            fontsize=14,
+            font="JetBrainsMono Nerd Font",
+            foreground=workspaceColor,
+        ),
+        widget.Volume(fmt="{}"),
+        widget.Sep(padding=10, foreground=backgroundColor),
+        # Date and time
+        widget.TextBox(
+            text="󱑀 ",
+            fontsize=14,
+            font="JetBrainsMono Nerd Font",
+            foreground=workspaceColor,
+        ),
+        widget.Clock(format="%A, %d %b %H:%M", font="JetBrainsMono Nerd Font"),
+        # System tray
+        widget.Systray(background=backgroundColor, icon_size=20, padding=4),
+        widget.Sep(
+            linewidth=0,
+            padding=10,
+            foreground=foregroundColor,
+            background=backgroundColor,
+        ),
+    ]
+)
+
+
 screens = [
     Screen(
         top=bar.Bar(
-            [
-                # Workspaces
-                widget.GroupBox(
-                    font="JetBrainsMono Nerd Font",
-                    fontsize=16,
-                    margin_y=2,
-                    margin_x=4,
-                    padding_y=6,
-                    padding_x=6,
-                    borderwidth=2,
-                    disable_drag=True,
-                    inactive=foregroundColor,
-                    active=foregroundColor,
-                    hide_unused=False,
-                    rounded=False,
-                    highlight_method="line",
-                    highlight_color=[backgroundColor, backgroundColor],
-                    this_current_screen_border=workspaceColor,
-                    urgent_alert_method="line",
-                    urgent_border=colors[9],
-                    urgent_text=colors[1],
-                    foreground=foregroundColor,
-                    background=backgroundColor,
-                    use_mouse_wheel=False,
-                ),
-                # Spacer to separate bar in two (left and right sides)
-                widget.Spacer(),
-                widget.Sep(padding=10, foreground=backgroundColor),
-                # Updates available
-                widget.TextBox(
-                    text="󰇚",
-                    fontsize=14,
-                    font="JetBrainsMono Nerd Font",
-                    foreground=workspaceColor,
-                ),
-                widget.CheckUpdates(
-                    update_interval=1800,
-                    distro="Arch_checkupdates",
-                    display_format=" {updates}",
-                    no_update_string="0",
-                ),
-                widget.TextBox(
-                    text=" Time:",
-                    fontsize=14,
-                    font="JetBrainsMono Nerd Font",
-                ),
-                widget.GenPollText(
-                    update_interval=1800,
-                    func=lambda: subprocess.check_output(
-                        os.path.expanduser("~") + "/.local/bin/time-since-update.sh"
-                    ).decode("utf-8"),
-                ),
-                widget.Sep(padding=10, foreground=backgroundColor),
-                # Volume level
-                widget.TextBox(
-                    text="󰕾 ",
-                    fontsize=14,
-                    font="JetBrainsMono Nerd Font",
-                    foreground=workspaceColor,
-                ),
-                widget.Volume(fmt="{}"),
-                widget.Sep(padding=10, foreground=backgroundColor),
-                # Battery level
-                widget.TextBox(
-                    text="󰁹",
-                    fontsize=14,
-                    font="JetBrainsMono Nerd Font",
-                    foreground=workspaceColor,
-                ),
-                widget.Battery(
-                    format="{percent:1.0%}",
-                    full_char="",
-                    low_percentage=0.11,
-                    low_foreground=colors[9],
-                ),
-                widget.Sep(padding=10, foreground=backgroundColor),
-                # Date and time
-                widget.TextBox(
-                    text="󱑀 ",
-                    fontsize=14,
-                    font="JetBrainsMono Nerd Font",
-                    foreground=workspaceColor,
-                ),
-                widget.Clock(format="%A, %d %b %H:%M", font="JetBrainsMono Nerd Font"),
-                # System tray
-                widget.Systray(background=backgroundColor, icon_size=20, padding=4),
-                widget.Sep(
-                    linewidth=0,
-                    padding=10,
-                    foreground=foregroundColor,
-                    background=backgroundColor,
-                ),
-            ],
+            widgets,
             36,
             background=backgroundColor,
             margin=6,
