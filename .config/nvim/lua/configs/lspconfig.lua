@@ -1,39 +1,22 @@
-local config = require("plugins.configs.lspconfig")
-local lspconfig = require("lspconfig")
-local util = require("lspconfig/util")
+local config = require "nvchad.configs.lspconfig"
+local lspconfig = require "lspconfig"
+local util = require "lspconfig.util"
 
--- Autogroup for formatting on save
-local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
+config.defaults() -- Loads NvChad's defaults
 
 -- On attach and capabilities
-local capabilities = config.capabilities
+    local capabilities = config.capabilities
 local on_attach = function(client, bufnr)
-    if client == "ruff_lsp" then
-        lspconfig.ruff_lsp.server_capabilities.hoverProvider = false
+    if client == "ruff" then
+        lspconfig.ruff.server_capabilities.hoverProvider = false
     elseif client == "clangd" then
         client.server_capabilities.signatureHelpProvider = false
     end
-
-    -- Auto-formatting
-    if client.supports_method("textDocument/formatting") then
-        vim.api.nvim_clear_autocmds({
-            group = augroup,
-            buffer = bufnr,
-        })
-        vim.api.nvim_create_autocmd("BufWritePre", {
-            group = augroup,
-            buffer = bufnr,
-            callback = function()
-                vim.lsp.buf.format({ bufnr = bufnr })
-            end,
-        })
-    end
-
     config.on_attach(client, bufnr)
 end
 
 -- Lua
-lspconfig.lua_ls.setup({
+lspconfig.lua_ls.setup {
     filetypes = { "lua" },
     on_attach = on_attach,
     capabilities = capabilities,
@@ -55,10 +38,10 @@ lspconfig.lua_ls.setup({
             },
         },
     },
-})
+}
 
 -- Python
-lspconfig.pyright.setup({
+lspconfig.pyright.setup {
     filetypes = { "python" },
     on_attach = on_attach,
     capabilities = capabilities,
@@ -71,46 +54,46 @@ lspconfig.pyright.setup({
         python = {
             analysis = {
                 -- Ignoring all files for analysis to exclusively use Ruff for linting
-                ignore = { '*' },
+                ignore = { "*" },
                 -- Can also use Mypy for static type checking, and turn this option off
-                typeCheckingMode = "on",
+                typeCheckingMode = "off",
             },
         },
     },
-})
+}
 
-lspconfig.ruff_lsp.setup({
+lspconfig.ruff.setup {
     filetypes = { "python" },
     on_attach = on_attach,
     capabilities = capabilities,
-})
+}
 
 -- Rust
-lspconfig.rust_analyzer.setup({
+lspconfig.rust_analyzer.setup {
     filetypes = { "rust" },
     on_attach = on_attach,
     capabilities = capabilities,
 
-    root_dir = util.root_pattern("Cargo.toml"),
+    root_dir = util.root_pattern "Cargo.toml",
     settings = {
-        ['rust-analyzer'] = {
+        ["rust-analyzer"] = {
             cargo = {
                 allFeatures = true,
             },
         },
     },
-})
+}
 
 -- C/C++
-lspconfig.clangd.setup({
+lspconfig.clangd.setup {
     filetypes = { "c", "cpp" },
     on_attach = on_attach,
     capabilities = capabilities,
-})
+}
 
 -- LaTeX
-lspconfig.texlab.setup({
+lspconfig.texlab.setup {
     filetypes = { "latex" },
     on_attach = on_attach,
     capabilities = capabilities,
-})
+}

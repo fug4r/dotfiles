@@ -32,16 +32,22 @@ M.treesitter = {
         "hyprlang",
         "asm",
     },
+
+    highlight = {
+        enable = true,
+        disable = { "latex" },
+        additional_vim_regex_highlighting = { "latex", "markdown" },
+    },
 }
 
 M.mason = {
     ensure_installed = {
         -- Lua
-        "lua-language-server", -- Already present in default config
+        -- "lua-language-server", -- Already present in default config
 
         -- Python
         "pyright",
-        "ruff-lsp",
+        "ruff",
         "mypy",
         "debugpy",
 
@@ -57,25 +63,24 @@ M.mason = {
     },
 }
 
-
--- Git support in nvimtree
-M.nvimtree = {
-    git = {
-        enable = true,
+M.conform = {
+    formatters_by_ft = {
+        lua = { "stylua" },
+        -- css = { "prettier" },
+        -- html = { "prettier" },
     },
-
-    renderer = {
-        highlight_git = true,
-        icons = {
-            show = {
-                git = true,
-            },
-        },
+    -- Set default options
+    default_format_opts = {
+        lsp_format = "fallback",
+    },
+    format_on_save = {
+        -- These options will be passed to conform.format()
+        timeout_ms = 500,
     },
 }
 
 -- Nvim completions
-local cmp = require("cmp")
+local cmp = require "cmp"
 M.cmp = {
     sources = {
         -- { name = "buffer" },
@@ -83,6 +88,8 @@ M.cmp = {
         { name = "luasnip" },
         { name = "nvim_lua" },
         { name = "crates" },
+        { name = "render-markdown" },
+
         {
             name = "nvim_lsp",
             entry_filter = function(entry)
@@ -93,7 +100,7 @@ M.cmp = {
                 else
                     return true
                 end
-            end
+            end,
         },
     },
 
@@ -102,7 +109,7 @@ M.cmp = {
         ["<C-e>"] = cmp.config.disable,
 
         -- Toggle completion
-        ["<C-Space>"] = cmp.mapping({
+        ["<C-Space>"] = cmp.mapping {
             i = function()
                 if cmp.visible() then
                     cmp.abort()
@@ -117,36 +124,32 @@ M.cmp = {
                     cmp.complete()
                 end
             end,
-        }),
+        },
 
         -- Super Tab
         ["<Tab>"] = cmp.mapping(function(fallback)
-                if cmp.visible() then
-                    cmp.confirm { select = true }
-                elseif require("luasnip").expand_or_jumpable() then
-                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
-                else
-                    fallback()
-                end
-            end,
-            {
-                "i",
-                "s",
-            }
-        ),
+            if cmp.visible() then
+                cmp.confirm { select = true }
+            elseif require("luasnip").expand_or_jumpable() then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
+            else
+                fallback()
+            end
+        end, {
+            "i",
+            "s",
+        }),
         ["<S-Tab>"] = cmp.mapping(function(fallback)
-                if require("luasnip").jumpable(-1) then
-                    vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
-                else
-                    fallback()
-                end
-            end,
-            {
-                "i",
-                "s",
-            }
-        ),
-    }
+            if require("luasnip").jumpable(-1) then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
+            else
+                fallback()
+            end
+        end, {
+            "i",
+            "s",
+        }),
+    },
 }
 
 return M

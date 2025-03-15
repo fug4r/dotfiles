@@ -1,3 +1,5 @@
+require "nvchad.options"
+
 local opt = vim.opt
 
 -- Indenting
@@ -18,13 +20,10 @@ opt.incsearch = true
 -- Set scrolloff
 opt.scrolloff = 12
 
--- Load snippets from ~/.config/nvim/luasnip/
-vim.g.lua_snippets_path = vim.fn.stdpath "config" .. "/lua/custom/luasnip"
+-- Load snippets from ~/.config/nvim/lua/luasnip/
+vim.g.lua_snippets_path = vim.fn.stdpath "config" .. "/lua/luasnip"
 
 -- Add hyprlang filetype
-vim.filetype.add({
+vim.filetype.add {
     pattern = { [".*/hypr/.*%.conf"] = "hyprlang" },
-})
-
--- Local leader key
-vim.g.maplocalleader = "."
+}
