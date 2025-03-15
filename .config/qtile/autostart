@@ -1,16 +1,16 @@
 #!/bin/sh
 
 # Xorg & other options
-xrandr --output eDP-2 --mode 2560x1600 --rate 165.00
+xrandr --output HDMI-0 --mode 2560x1440 --rate 360.00
 xset r rate 250 45
 setxkbmap -option ctrl:swapcaps
 picom --config ~/.config/picom/picom.conf --vsync &
 
 # Programs and applets
-mullvad-vpn &
-pavucontrol &
-blueman-manager &
-blueman-applet &
-nm-applet &
+#mullvad-vpn &
+#pavucontrol &
+#blueman-manager &
+#blueman-applet &
+#nm-applet &
 flameshot &
 dunst &
