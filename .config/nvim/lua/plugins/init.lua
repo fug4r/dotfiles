@@ -9,6 +9,11 @@ return {
 
     {
         "mikavilpas/yazi.nvim",
+        opts = {
+            keymaps = {
+                show_help = "<c-h>",
+            },
+        },
     },
 
     -- Formatting
@@ -55,9 +60,9 @@ return {
     {
         "L3MON4D3/LuaSnip",
         opts = { enable_autosnippets = true },
-        -- config = function()
-        -- require("custom.configs.luasnip")
-        -- end,
+        config = function()
+            require "configs.luasnip"
+        end,
     },
 
     -- Disable default snippets >:(

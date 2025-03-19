@@ -37,7 +37,7 @@ set -gx EDITOR nvim
 set -gx VISUAL nvim
 set -gx QT_QPA_PLATFORMTHEME qt5ct
 set -gx _JAVA_AWT_WM_NONREPARENTING 1
-set -gx _JAVA_OPTIONS "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Djava.util.prefs.userRoot="$XDG_CONFIG_HOME"/java"
+set -gx _JAVA_OPTIONS "-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true"
 
 # Startup commands/message
 if status is-interactive
@@ -96,6 +96,9 @@ function yy
 	end
 	rm -f -- "$tmp"
 end
+
+# Keybindings
+bind --mode insert ctrl-f forward-char
 
 # Alises
 alias lf="lfcd"
