@@ -6,6 +6,14 @@ xset r rate 250 45
 setxkbmap -option ctrl:swapcaps
 picom --config ~/.config/picom/picom.conf --vsync &
 
+# Blank and DPMS timers
+xset s 300 300
+xset +dpms
+xset dpms 600 900 1200
+
+# Lock on any DPMS “suspend”/“off”
+xss-lock --transfer-sleep-lock -- i3lock -n -c 000000 &
+
 # Programs and applets
 #mullvad-vpn &
 #pavucontrol &

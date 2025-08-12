@@ -4,14 +4,14 @@ from os import path
 from typing import List
 import subprocess
 
-from libqtile import bar, layout, widget, hook, qtile
+from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, ScratchPad, DropDown, Key, Match, Screen
 from libqtile.lazy import lazy
 
 # from settings.path import qtile_path
 import colors
 
-mod = "mod4"
+mod = "mod1"
 terminal = "kitty --single-instance"
 browser = "brave"
 rofi = "rofi -show drun"
@@ -95,7 +95,7 @@ keys = [
 
 groups = []
 group_names = ["1", "2", "3", "4", "5", "6", "7", "8"]
-group_labels = ["󰈹", "", "", "", "", "", "", ""]
+group_labels = ["󰈹", "", "󰚗", "", "", "", "", ""]
 
 for i in range(len(group_names)):
     groups.append(
@@ -127,6 +127,13 @@ for i in groups:
             ),
         ]
     )
+
+keys.extend(
+    [
+        Key([mod], "g", lazy.layout.grow()),
+    ]
+)
+
 
 # Layout theme and layouts
 layout_theme = {
