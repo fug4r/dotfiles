@@ -1,5 +1,14 @@
 #!/bin/sh
 
+# True if laptop, false if not
+has_battery() {
+    if ls /sys/class/power_supply/BAT* &>/dev/null; then
+        return 0
+    else
+        return 1
+    fi
+}
+
 # Xorg & other options
 xrandr --output HDMI-0 --mode 2560x1440 --rate 360.00
 xset r rate 250 45
@@ -9,16 +18,20 @@ picom --config ~/.config/picom/picom.conf --vsync &
 # Blank and DPMS timers
 xset s 300 300
 xset +dpms
-xset dpms 600 900 1200
+xset dpms 600 0 0
 
-# Lock on any DPMS “suspend”/“off”
-xss-lock --transfer-sleep-lock -- i3lock -n -c 000000 &
-
-# Programs and applets
-#mullvad-vpn &
-#pavucontrol &
-#blueman-manager &
-#blueman-applet &
-#nm-applet &
-flameshot &
-dunst &
+if ! has_battery; then
+    # Lock on any DPMS “suspend”/“off”
+    xss-lock --transfer-sleep-lock -- i3lock -n -c 000000 &
+    
+    # Programs and applets for desktop
+    flameshot &
+    dunst &
+else
+    # Programs and applets for laptop
+    mullvad-vpn &
+    pavucontrol &
+    blueman-manager &
+    blueman-applet &
+    nm-applet &
+fi
