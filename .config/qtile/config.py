@@ -11,7 +11,14 @@ from libqtile.lazy import lazy
 # from settings.path import qtile_path
 import colors
 
-mod = "mod1"
+
+# Checks if the computer has a battery (is a laptop)
+def has_battery():
+    # Returns True if any battery device exists under /sys/class/power_supply/
+    return bool(glob.glob("/sys/class/power_supply/BAT*"))
+
+
+mod = "mod4" if has_battery() else "mod1"
 terminal = "kitty --single-instance"
 browser = "brave"
 rofi = "rofi -show drun"
@@ -19,12 +26,6 @@ powermenu = os.path.expanduser("~") + "/.config/rofi/powermenu"
 flameshot = "flameshot gui -c"
 
 colors, backgroundColor, foregroundColor, workspaceColor, chordColor = colors.dracula()
-
-
-# Checks if the computer has a battery (is a laptop)
-def has_battery():
-    # Returns True if any battery device exists under /sys/class/power_supply/
-    return bool(glob.glob("/sys/class/power_supply/BAT*"))
 
 
 keys = [
