@@ -15,18 +15,14 @@ xset r rate 250 45
 setxkbmap -option ctrl:swapcaps
 picom --config ~/.config/picom/picom.conf --vsync &
 
-# Blank and DPMS timers
-xset s 300 300
-xset +dpms
-xset dpms 600 0 0
-
 if ! has_battery; then
+    # Blank and DPMS timers
+    xset s 300 300
+    xset +dpms
+    xset dpms 600 0 0
+
     # Lock on any DPMS “suspend”/“off”
     xss-lock --transfer-sleep-lock -- i3lock -n -c 000000 &
-    
-    # Programs and applets for desktop
-    flameshot &
-    dunst &
 else
     # Programs and applets for laptop
     mullvad-vpn &
@@ -35,3 +31,7 @@ else
     blueman-applet &
     nm-applet &
 fi
+
+# Programs and applets for both
+flameshot &
+dunst &
