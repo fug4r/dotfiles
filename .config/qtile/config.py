@@ -18,7 +18,7 @@ def has_battery():
     return bool(glob.glob("/sys/class/power_supply/BAT*"))
 
 
-mod = "mod4" if has_battery() else "mod1"
+mod = "mod4"
 terminal = "kitty --single-instance"
 browser = "brave"
 rofi = "rofi -show drun"
