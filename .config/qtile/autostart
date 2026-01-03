@@ -12,7 +12,6 @@ has_battery() {
 # Xorg & other options
 xrandr --output HDMI-0 --mode 2560x1440 --rate 360.00
 xset r rate 250 45
-setxkbmap -option ctrl:swapcaps
 picom --config ~/.config/picom/picom.conf --vsync &
 
 if ! has_battery; then
@@ -24,6 +23,9 @@ if ! has_battery; then
     # Lock on any DPMS “suspend”/“off”
     xss-lock --transfer-sleep-lock -- i3lock -n -c 000000 &
 else
+    setxkbmap -option ctrl:swapcaps
+    xmodmap -e "keycode 22 = backslash bar" -e "keycode 51 = BackSpace"
+
     # Programs and applets for laptop
     mullvad-vpn &
     pavucontrol &
